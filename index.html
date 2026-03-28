@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-black" style="background-color: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <title>CORE // ARCHIVE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #E2D4E0;
+            --accent-rgb: 226, 212, 224;
+            --bg-base: #030303;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(15, 15, 15, 0.6);
+        }
+
+        html { 
+            background-color: var(--bg-base) !important; 
+            color-scheme: dark !important; 
+            scroll-behavior: smooth;
+        }
+        
+        body { 
+            background-color: var(--bg-base) !important; 
+            color: #e2e8f0; 
+            font-family: 'Outfit', sans-serif; 
+            margin: 0; padding: 0; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            position: relative;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translateZ(0);
+        }
+
+        .font-display { font-family: 'Syne', sans-serif; }
+        .font-mono-tech { font-family: 'Space Mono', monospace; }
+
+        .text-accent { color: var(--accent) !important; }
+        .bg-accent { background-color: var(--accent) !important; color: #000 !important; }
+        .border-accent { border-color: var(--accent) !important; }
+        
+        .hover-text-accent:hover { color: var(--accent) !important; text-shadow: 0 0 15px rgba(var(--accent-rgb), 0.5); }
+        .hover-border-accent:hover { border-color: var(--accent) !important; box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.2); }
+        .hover-bg-accent:hover { background-color: var(--accent) !important; color: #000 !important; box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.4); }
+        
+        .group:hover .group-hover-text-accent { color: var(--accent) !important; }
+        .group:hover .group-hover-border-accent { border-color: var(--accent) !important; }
+        
+        .focus-within-ring-accent:focus-within { 
+            outline: none;
+            box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--accent), 0 0 20px rgba(var(--accent-rgb), 0.5);
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            transform: translateZ(0);
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateZ(0);
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        @media (hover: hover) and (pointer: fine) {
+            .btn-glass:hover {
+                background: rgba(var(--accent-rgb), 0.1);
+                border-color: var(--accent);
+                transform: translate3d(0, -2px, 0);
+                box-shadow: 0 10px 30px -10px rgba(var(--accent-rgb), 0.5);
+            }
+        }
+        .btn-glass:active { transform: scale(0.95); }
+
+        .btn-glow {
+            background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.9), rgba(var(--accent-rgb), 0.6));
+            color: #fff !important;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateZ(0);
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        @media (hover: hover) and (pointer: fine) {
+            .btn-glow:hover {
+                box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.6);
+                transform: translate3d(0, -2px, 0) scale(1.02);
+            }
+        }
+        .btn-glow:active { transform: scale(0.95); }
+
+        .media-card { 
+            position: relative;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.2s ease-out, border-color 0.4s, box-shadow 0.4s;
+            transform: translate3d(0,0,0); 
+            will-change: transform, box-shadow;
+        }
+        
+        @media (hover: hover) and (pointer: fine) {
+            .media-card:hover { 
+                transform: translate3d(0, -8px, 0) scale(1.03); 
+                border-color: rgba(var(--accent-rgb), 0.5);
+                box-shadow: 0 20px 40px -10px rgba(0,0,0,0.8), 0 0 30px -10px rgba(var(--accent-rgb), 0.3); 
+                z-index: 20;
+            }
+        }
+        .media-card:active { transform: scale(0.96); z-index: 20; }
+
+        .card-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+            opacity: 1 !important;
+            transition: opacity 0.3s ease;
+            will-change: opacity;
+        }
+
+        .title-logo-target {
+            transition: opacity 0.3s ease;
+            transform: translateY(0) !important;
+        }
+
+        .ticker-wrap {
+            overflow: hidden; white-space: nowrap;
+            background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.05) 50%, transparent);
+            border-y: 1px solid rgba(255,255,255,0.05);
+            transform: translateZ(0);
+        }
+        .ticker-content { display: inline-block; animation: ticker 25s linear infinite; will-change: transform; }
+        @keyframes ticker { 0% { transform: translate3d(100vw, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+
+        .nav-link { 
+            position: relative; 
+            color: rgba(255,255,255,0.6);
+            transition: all 0.3s; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-active { color: var(--accent) !important; }
+        .nav-active svg { filter: drop-shadow(0 0 10px rgba(var(--accent-rgb), 0.6)); }
+
+        .skeleton-container {
+            position: relative;
+            overflow: hidden;
+            background: #060606;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            transform: translateZ(0);
+        }
+        
+        .skeleton-container::before {
+            content: ""; position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px; background-position: center; opacity: 0.8; pointer-events: none;
+        }
+
+        @keyframes tech-slide { 0% { transform: translate3d(-100%, 0, 0); } 100% { transform: translate3d(100%, 0, 0); } }
+
+        .input-glass {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            min-height: 48px;
+        }
+        .input-glass:focus {
+            background: rgba(var(--accent-rgb), 0.05);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.15);
+        }
+
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; border: 2px solid #000; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        @keyframes scaleUpFade { 0% { opacity: 0; transform: translate3d(0, 15px, 0) scale(0.98); } 100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } }
+        .fade-in { animation: scaleUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; will-change: opacity, transform; }
+        .anim-item { opacity: 0; animation: scaleUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; will-change: opacity, transform; }
+
+        .bottom-sheet {
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        .bottom-sheet.open {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-slate-200">
+
+    <div id="global-bg" class="fixed inset-0 z-[-3] bg-cover bg-center transition-opacity duration-1000 opacity-0 pointer-events-none transform translate-z-0"></div>
+
+    <div id="app" class="w-full min-h-screen relative z-10 transition-colors duration-1000"></div>
+    <div id="modal-root"></div>
+
+    <script>
+        const API_KEY = '64c0ee366784fff0886ad95418f4a19c';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMG_ORIGINAL = 'https://image.tmdb.org/t/p/original';
+        const IMG_W500 = 'https://image.tmdb.org/t/p/w500';
+        const IMG_W185 = 'https://image.tmdb.org/t/p/w185';
+        
+        const ACCENT_COLORS =[
+            { name: 'Pastel Lilac', hex: '#E2D4E0' }, { name: 'Muted Mauve', hex: '#8C6B77' },
+            { name: 'Rich Burgundy', hex: '#4A2E35' }, { name: 'Dark Navy', hex: '#2E3B4E' },
+            { name: 'Pastel Slate', hex: '#7B8C9C' }, { name: 'Pastel Sage', hex: '#9EB3A2' },
+            { name: 'Deep Forest', hex: '#415243' }, { name: 'Soft Amber', hex: '#D4A373' },
+            { name: 'Rich Umber', hex: '#5C3D2E' }
+        ];
+
+        const FRANCHISES =[
+            { name: "Marvel Cinematic Universe", items:[ { id: 1726, type: 'movie' }, { id: 24428, type: 'movie' }, { id: 299534, type: 'movie' }, { id: 84958, type: 'tv' } ] },
+            { name: "Star Wars Saga", items:[ { id: 11, type: 'movie' }, { id: 1891, type: 'movie' }, { id: 1892, type: 'movie' }, { id: 82856, type: 'tv' } ] },
+            { name: "DC Extended Universe", items:[ { id: 272, type: 'movie' }, { id: 49026, type: 'movie' }, { id: 297762, type: 'movie' }, { id: 110492, type: 'tv' } ] },
+            { name: "Wizarding World", items:[ { id: 671, type: 'movie' }, { id: 672, type: 'movie' }, { id: 12444, type: 'movie' }, { id: 12445, type: 'movie' } ] },
+            { name: "Middle Earth", items:[ { id: 120, type: 'movie' }, { id: 121, type: 'movie' }, { id: 122, type: 'movie' }, { id: 84773, type: 'tv' } ] }
+        ];
+
+        let state = { 
+            view: 'profiles', lastMainView: 'home', currentMediaId: null, currentMediaType: null, currentUser: null, 
+            profiles: JSON.parse(localStorage.getItem('profiles_v3')) ||[], watchlist:[], continueWatching:[], franchiseData: null,
+            genres: { movie: [], tv:[] },
+            filters: { movie: { page: 1, sort_by: 'popularity.desc', year: '', genre: '', rating: '' }, tv: { page: 1, sort_by: 'popularity.desc', year: '', genre: '', rating: '' } }
+        };
+        let tempState = { selectedColor: '#E2D4E0', searchTimeout: null };
+
+        function hexToRgb(hex) {
+            let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+            return `${r}, ${g}, ${b}`;
+        }
+        const esc = (str) => String(str || '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
+        const getInitial = (name) => name ? name.charAt(0).toUpperCase() : '?';
+
+        const techCardInner = () => `
+            <div class="absolute inset-0 flex flex-col items-center justify-center opacity-[0.15] z-0">
+                <svg class="w-6 h-6 text-accent opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full p-4 z-10 flex flex-col gap-2">
+                <div class="w-3/4 h-1.5 bg-white/5 rounded overflow-hidden relative"><div class="absolute inset-0 bg-white/20 shadow-[0_0_10px_#fff] -translate-x-full animate-[tech-slide_1.5s_infinite_linear]"></div></div>
+                <div class="w-1/2 h-1.5 bg-accent/5 rounded overflow-hidden relative"><div class="absolute inset-0 bg-accent/30 shadow-[0_0_10px_var(--accent)] -translate-x-full animate-[tech-slide_1.5s_infinite_linear_150ms]"></div></div>
+            </div>
+            <div class="absolute top-0 left-0 w-full h-full shadow-[inset_0_0_20px_rgba(0,0,0,0.9)] pointer-events-none rounded-[inherit]"></div>
+        `;
+
+        const folderSkeletonInner = () => `
+            <div class="absolute inset-0 flex items-center justify-center opacity-[0.12] z-0">
+                <div class="w-12 h-12 rounded-full border border-dashed border-white/30"></div>
+                <div class="absolute w-2 h-2 bg-accent rounded-full opacity-50"></div>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full p-6 z-10 flex flex-col gap-3">
+                <div class="w-2/3 h-2 bg-white/5 rounded overflow-hidden relative"><div class="absolute inset-0 bg-white/20 -translate-x-full animate-[tech-slide_1.5s_infinite_linear]"></div></div>
+                <div class="w-1/3 h-1.5 bg-accent/5 rounded overflow-hidden relative"></div>
+            </div>
+            <div class="absolute top-0 left-0 w-full h-full shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] pointer-events-none rounded-[inherit]"></div>
+        `;
+
+        const skeletonCard = (n=6) => `<div class="media-card aspect-[2/3] skeleton-container border-0 rounded-[1.25rem]">${techCardInner()}</div>`.repeat(n);
+        const folderSkeleton = (n=4) => `<div class="media-card aspect-video skeleton-container border-0 rounded-[1.25rem]">${folderSkeletonInner()}</div>`.repeat(n);
+        
+        const rowSkeleton = (title) => `
+            <section class="w-full mb-10 md:mb-12">
+                <h3 class="font-mono-tech text-xs tracking-[0.2em] text-gray-500 mb-4 md:mb-6 uppercase border-l-2 border-white/10 pl-4 ml-6 md:ml-12">${title}</h3>
+                <div class="flex overflow-hidden gap-4 md:gap-6 pb-8 pt-2 px-6 md:px-12">
+                    ${`<div class="w-36 md:w-48 lg:w-56 aspect-[2/3] flex-shrink-0 skeleton-container rounded-[1.25rem]">${techCardInner()}</div>`.repeat(6)}
+                </div>
+            </section>
+        `;
+
+        const heroSkeletonHTML = () => `
+            <header class="relative w-full h-[75vh] md:h-[85vh] skeleton-container border-0 flex flex-col justify-end p-6 md:p-12 isolate overflow-hidden pt-[max(1.5rem,env(safe-area-inset-top))]">
+                <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-base)] via-[var(--bg-base)]/80 to-transparent z-0 pointer-events-none"></div>
+                <div class="relative z-10 w-full max-w-4xl space-y-6 md:space-y-8 pb-12 md:pb-20 pl-0 md:pl-6">
+                    <div class="w-24 h-6 bg-accent/10 border border-accent/30 rounded-full relative overflow-hidden">
+                        <div class="absolute inset-0 bg-accent/20 -translate-x-full animate-[tech-slide_1.5s_infinite_linear]"></div>
+                    </div>
+                    <div class="w-3/4 md:w-2/3 h-12 md:h-20 bg-white/5 border-l-4 border-accent rounded-r-2xl relative overflow-hidden shadow-2xl">
+                         <div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_2s_infinite_linear]"></div>
+                    </div>
+                    <div class="w-full md:w-3/4 space-y-3 pt-2">
+                        <div class="w-full h-3 md:h-4 bg-white/5 rounded relative overflow-hidden"><div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_1.5s_infinite_linear_100ms]"></div></div>
+                        <div class="w-11/12 h-3 md:h-4 bg-white/5 rounded relative overflow-hidden"><div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_1.5s_infinite_linear_200ms]"></div></div>
+                        <div class="w-4/5 h-3 md:h-4 bg-white/5 rounded relative overflow-hidden"><div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_1.5s_infinite_linear_300ms]"></div></div>
+                    </div>
+                    <div class="flex gap-4 pt-6">
+                        <div class="w-40 md:w-48 h-[48px] md:h-14 rounded-full border border-accent/40 bg-accent/10 relative overflow-hidden shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"></div>
+                        <div class="w-40 md:w-48 h-[48px] md:h-14 rounded-full border border-white/10 bg-white/5 relative overflow-hidden"></div>
+                    </div>
+                </div>
+            </header>
+        `;
+
+        const detailsSkeleton = () => `
+            <div class="fixed inset-0 bg-black/85 backdrop-blur-md z-[-1] pointer-events-none"></div>
+            <div class="grid lg:grid-cols-[450px,1fr] gap-12 lg:gap-20 relative z-10 pt-[max(2rem,env(safe-area-inset-top))] items-start opacity-80 pointer-events-none">
+                <div class="skeleton-container aspect-[2/3] rounded-[2rem] border border-white/10 w-full">${techCardInner()}</div>
+                <div class="pt-4 space-y-8">
+                    <div class="w-3/4 h-16 bg-white/5 rounded-2xl overflow-hidden relative"><div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_1.5s_infinite_linear]"></div></div>
+                    <div class="w-1/3 h-6 bg-accent/10 rounded overflow-hidden relative"><div class="absolute inset-0 bg-accent/20 -translate-x-full animate-[tech-slide_1.5s_infinite_linear]"></div></div>
+                    <div class="space-y-3">
+                        <div class="w-full h-4 bg-white/5 rounded relative overflow-hidden"><div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_1.5s_infinite_linear_100ms]"></div></div>
+                        <div class="w-11/12 h-4 bg-white/5 rounded relative overflow-hidden"><div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_1.5s_infinite_linear_200ms]"></div></div>
+                        <div class="w-4/5 h-4 bg-white/5 rounded relative overflow-hidden"><div class="absolute inset-0 bg-white/10 -translate-x-full animate-[tech-slide_1.5s_infinite_linear_300ms]"></div></div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/10">
+                        <div class="w-full h-12 bg-white/5 rounded relative"></div><div class="w-full h-12 bg-white/5 rounded relative"></div>
+                        <div class="w-full h-12 bg-white/5 rounded relative"></div><div class="w-full h-12 bg-white/5 rounded relative"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.addEventListener('keydown', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+                if (e.key === 'Escape') e.target.blur();
+                return;
+            }
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('modal-root');
+                if (modal.innerHTML !== '') { closeModal(); return; }
+                if (state.view === 'player') setView('details', state.currentMediaId, state.currentMediaType);
+                else if (state.view === 'details') setView(state.lastMainView);
+            }
+        });
+
+        window.addEventListener("message", (event) => {
+            if (event.origin !== "https://www.vidsrc.wtf") return;
+            if (event.data?.type === "MEDIA_DATA") {
+                localStorage.setItem("vidsrcwtf-Progress", JSON.stringify(event.data.data));
+            }
+        });
+
+        function saveToStorage(key, data) { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e){} }
+        function saveProfiles() { saveToStorage('profiles_v3', state.profiles); }
+        
+        function selectProfile(profileName) {
+            state.currentUser = state.profiles.find(p => p.name === profileName);
+            if (!state.currentUser) return;
+            document.documentElement.style.setProperty('--accent', state.currentUser.color || '#E2D4E0');
+            document.documentElement.style.setProperty('--accent-rgb', hexToRgb(state.currentUser.color || '#E2D4E0'));
+            
+            state.watchlist = JSON.parse(localStorage.getItem(`${state.currentUser.name}_wl`)) ||[];
+            state.continueWatching = JSON.parse(localStorage.getItem(`${state.currentUser.name}_cw`)) ||[];
+            setView('home');
+        }
+
+        function deleteProfile(name, event) {
+            event.stopPropagation();
+            if(confirm(`Delete ${name}'s profile?`)) {
+                state.profiles = state.profiles.filter(p => p.name !== name);
+                saveProfiles();
+                setView('profiles');
+            }
+        }
+
+        function getSources(id, type, s, e, imdbId) {
+            const tmdb = id;
+            const hexColor = (state.currentUser?.color || '#E2D4E0').replace('#', '');
+            
+            if (type === 'movie') {
+                const sources =[
+                    { name: 'VidSrc Prime 1', url: `https://vidsrc.wtf/api/1/movie/?id=${tmdb}&color=${hexColor}` },
+                    { name: 'VidSrc Prime 2', url: `https://vidsrc.wtf/api/2/movie/?id=${tmdb}&color=${hexColor}` },
+                    { name: 'VidSrc Prime 3', url: `https://vidsrc.wtf/api/3/movie/?id=${tmdb}` },
+                    { name: 'VidSrc Prime 4', url: `https://vidsrc.wtf/api/4/movie/?id=${tmdb}` },
+                    { name: 'AutoEmbed (Alpha)', url: `https://autoembed.co/movie/tmdb/${tmdb}` },
+                    { name: '2embed Network', url: `https://www.2embed.online/embed/movie/${tmdb}` },
+                    { name: 'HnEmbed (Beta)', url: `https://hnembed.cc/embed/movie/${tmdb}` },
+                    { name: 'MoviesAPI Node', url: `https://moviesapi.club/movie/${tmdb}` },
+                    { name: 'SmashyStream', url: `https://player.smashy.stream/movie/${tmdb}` },
+                    { name: '111movies Hub', url: `https://111movies.net/movie/${tmdb}` }
+                ];
+                if (imdbId) sources.push({ name: 'Godrive Player', url: `https://godriveplayer.com/player.php?imdb=${imdbId}` });
+                return sources;
+            } else {
+                return[
+                    { name: 'VidSrc Prime 1', url: `https://vidsrc.wtf/api/1/tv/?id=${tmdb}&s=${s}&e=${e}&color=${hexColor}` },
+                    { name: 'VidSrc Prime 2', url: `https://vidsrc.wtf/api/2/tv/?id=${tmdb}&s=${s}&e=${e}&color=${hexColor}` },
+                    { name: 'VidSrc Prime 3', url: `https://vidsrc.wtf/api/3/tv/?id=${tmdb}&s=${s}&e=${e}` },
+                    { name: 'VidSrc Prime 4', url: `https://vidsrc.wtf/api/4/tv/?id=${tmdb}&s=${s}&e=${e}` },
+                    { name: 'AutoEmbed (Alpha)', url: `https://autoembed.co/tv/tmdb/${tmdb}-${s}-${e}` },
+                    { name: 'Godrive Player', url: `https://godriveplayer.com/player.php?type=series&tmdb=${tmdb}&season=${s}&episode=${e}` },
+                    { name: '2embed Network', url: `https://www.2embed.online/embed/tv/${tmdb}/${s}/${e}` },
+                    { name: 'HnEmbed (Beta)', url: `https://hnembed.cc/embed/tv/${tmdb}/${s}/${e}` },
+                    { name: 'MoviesAPI Node', url: `https://moviesapi.club/tv/${tmdb}-${s}-${e}` },
+                    { name: '111movies Hub', url: `https://111movies.net/tv/${tmdb}/${s}/${e}` }
+                ];
+            }
+        }
+
+        async function fetchAPI(path, params = '') {
+            try {
+                const res = await fetch(`${BASE_URL}${path}?api_key=${API_KEY}${params}`);
+                if (!res.ok) throw new Error('API Sync Failed');
+                return await res.json();
+            } catch (err) { return null; }
+        }
+
+        const fetchFranchises = async () => {
+            if (!state.franchiseData) {
+                state.franchiseData = await Promise.all(FRANCHISES.map(async (f, index) => {
+                    const res = await fetchAPI(`/${f.items[0].type}/${f.items[0].id}`);
+                    return { ...f, index, backdrop: res?.backdrop_path || '' };
+                }));
+            }
+            return state.franchiseData;
+        };
+        
+        window.observeLogos = () => {
+            if (!window.logoObserver) {
+                window.logoObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const el = entry.target;
+                            const id = el.dataset.id;
+                            const type = el.dataset.type;
+                            const isList = el.dataset.list === 'true';
+                            
+                            if(el.dataset.fetching) return;
+                            el.dataset.fetching = "true";
+
+                            fetchAPI(`/${type}/${id}/images`, '&include_image_language=en,null').then(data => {
+                                const logos = data?.logos;
+                                if (logos && logos.length > 0) {
+                                    const logo = logos.find(l => l.iso_639_1 === 'en') || logos[0];
+                                    if (logo && logo.file_path) {
+                                        const img = new Image();
+                                        img.src = `${IMG_W500}${logo.file_path}`;
+                                        
+                                        let extraClass = isList 
+                                            ? "max-h-[35px] group-hover:scale-105" 
+                                            : "max-h-[60px] translate-y-0 group-hover:scale-[1.02]";
+                                            
+                                        img.className = `w-auto max-w-full object-contain object-left drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] transition-transform duration-500 fade-in ${extraClass}`;
+                                        img.alt = "Logo";
+
+                                        img.onload = () => {
+                                            el.style.opacity = '0';
+                                            setTimeout(() => { el.innerHTML = ''; el.appendChild(img); el.style.opacity = '1'; }, 300);
+                                        };
+                                    }
+                                }
+                            });
+                            observer.unobserve(el);
+                        }
+                    });
+                }, { rootMargin: '300px' }); 
+            }
+            
+            document.querySelectorAll('.title-logo-target:not(.observed)').forEach(el => {
+                el.classList.add('observed');
+                window.logoObserver.observe(el);
+            });
+        };
+
+        function addToWatchlist(id, type = 'movie') {
+            if (state.watchlist.find(i => i.id === id)) return alert('Already in watchlist.');
+            state.watchlist.unshift({ id, type });
+            saveToStorage(`${state.currentUser.name}_wl`, state.watchlist);
+            alert('Added to watchlist.');
+        }
+
+        function removeFromWatchlist(id, event) {
+            if(event) event.stopPropagation();
+            state.watchlist = state.watchlist.filter(i => i.id !== id);
+            saveToStorage(`${state.currentUser.name}_wl`, state.watchlist);
+            setView('watchlist');
+        }
+
+        function addToContinueWatching(item) {
+            state.continueWatching = state.continueWatching.filter(i => i.id !== item.id);
+            state.continueWatching.unshift(item);
+            if (state.continueWatching.length > 6) state.continueWatching.pop();
+            saveToStorage(`${state.currentUser.name}_cw`, state.continueWatching);
+        }
+
+        function removeFromContinueWatching(id, event) {
+            if(event) event.stopPropagation();
+            state.continueWatching = state.continueWatching.filter(item => item.id !== id);
+            saveToStorage(`${state.currentUser.name}_cw`, state.continueWatching);
+            setView('home');
+        }
+
+        window.initModalSwipe = () => {
+            const modal = document.getElementById('bottom-sheet');
+            if(!modal) return;
+            let startY = 0;
+            modal.addEventListener('touchstart', e => startY = e.touches[0].clientY, {passive: true});
+            modal.addEventListener('touchend', e => {
+                let endY = e.changedTouches[0].clientY;
+                if(endY - startY > 100) closeModal();
+            }, {passive: true});
+            setTimeout(() => { modal.classList.add('open'); }, 10);
+        };
+
+        window.closeModal = () => {
+            const modal = document.getElementById('bottom-sheet');
+            if(modal && modal.classList.contains('open')) {
+                modal.classList.remove('open');
+                setTimeout(() => document.getElementById('modal-root').innerHTML = '', 400);
+            } else {
+                document.getElementById('modal-root').innerHTML = '';
+            }
+        };
+
+        async function showEpisodeModal(showId) {
+            const seasons = window.tempSeasons ||[];
+            const root = document.getElementById('modal-root');
+            root.innerHTML = `
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end justify-center z-[200] transition-all duration-500 fade-in" onclick="closeModal()">
+                    <div id="bottom-sheet" class="bottom-sheet w-full max-w-4xl bg-[#0a0a0a]/95 backdrop-blur-2xl rounded-t-[2rem] p-6 pb-[max(2rem,env(safe-area-inset-bottom))] shadow-[0_-10px_50px_rgba(0,0,0,0.8)] border-t border-white/10 relative" onclick="event.stopPropagation()">
+                        <div class="w-16 h-1 bg-white/20 rounded-full mx-auto mb-6"></div>
+                        <h2 class="font-display text-2xl mb-6 text-white tracking-wide">Select Season</h2>
+                        <div id="season-grid" class="flex overflow-x-auto gap-3 hide-scroll snap-x pb-4">
+                            ${seasons.map((s, i) => `<button style="animation-delay: ${i*30}ms" onclick="loadEpisodes(${showId}, ${s.season_number})" class="anim-item snap-start min-w-max h-[48px] px-8 rounded-full glass-panel font-mono-tech text-sm hover-bg-accent text-white outline-none active:scale-95">Season ${s.season_number}</button>`).join('')}
+                        </div>
+                        <div id="episode-container" class="mt-4"></div>
+                    </div>
+                </div>
+            `;
+            window.initModalSwipe();
+        }
+
+        async function loadEpisodes(showId, seasonNum) {
+            const container = document.getElementById('episode-container');
+            container.innerHTML = `<div class="font-mono-tech p-10 animate-pulse text-center w-full text-accent tracking-widest text-sm">Loading Season ${seasonNum}...</div>`;
+            const data = await fetchAPI(`/tv/${showId}/season/${seasonNum}`);
+            
+            if (!data || !data.episodes) return container.innerHTML = `<div class="p-8 text-red-500 text-center font-mono-tech">Failed to load episodes.</div>`;
+
+            container.innerHTML = `
+                <h3 class="font-display text-xl text-white tracking-wide mb-4">Episodes <span class="text-xs text-gray-500 ml-2">${data.episodes.length} Episodes</span></h3>
+                <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 max-h-[40vh] overflow-y-auto pr-2 custom-scroll">
+                    ${data.episodes.map((e, i) => `<button style="animation-delay: ${i*15}ms" onclick="closeModal(); setView('player', ${showId}, 'tv', ${seasonNum}, ${e.episode_number})" class="anim-item btn-glass min-w-[48px] min-h-[48px] rounded-lg font-mono-tech text-sm hover-bg-accent text-white outline-none" title="${esc(e.name)}">${e.episode_number}</button>`).join('')}
+                </div>
+            `;
+        }
+
+        window.showServerModal = () => {
+            const sources = window.currentSources ||[];
+            const activeIdx = window.currentServerIndex || 0;
+            const root = document.getElementById('modal-root');
+            
+            root.innerHTML = `
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end justify-center z-[200] transition-all duration-500 fade-in" onclick="closeModal()">
+                    <div id="bottom-sheet" class="bottom-sheet w-full max-w-2xl bg-[#0a0a0a]/95 backdrop-blur-2xl rounded-t-[2rem] p-6 pb-[max(2rem,env(safe-area-inset-bottom))] shadow-[0_-10px_50px_rgba(0,0,0,0.8)] border-t border-white/10 relative" onclick="event.stopPropagation()">
+                        <div class="w-16 h-1 bg-white/20 rounded-full mx-auto mb-6"></div>
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="font-display text-2xl text-white tracking-wide">Select Server</h2>
+                            <span class="font-mono-tech text-xs text-gray-500 uppercase tracking-widest">${sources.length} Available</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-2 custom-scroll pb-4">
+                            ${sources.map((s, i) => `
+                                <button style="animation-delay: ${i*15}ms" onclick="changeServer(${i})" class="anim-item flex items-center justify-between min-h-[48px] px-6 rounded-xl glass-panel font-mono-tech text-xs hover-bg-accent transition-colors outline-none active:scale-95 ${i === activeIdx ? 'bg-accent/20 border-accent text-accent shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]' : 'text-white'}">
+                                    <span>${s.name}</span>
+                                    ${i === activeIdx ? `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>` : ''}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            window.initModalSwipe();
+        };
+
+        window.changeServer = (index) => {
+            const sources = window.currentSources;
+            if (!sources || !sources[index]) return;
+            window.currentServerIndex = index;
+            
+            const frame = document.getElementById('video-frame');
+            if (frame) {
+                frame.style.opacity = '0';
+                setTimeout(() => {
+                    frame.src = sources[index].url;
+                }, 300);
+            }
+            
+            const btn = document.getElementById('current-server-btn');
+            if (btn) btn.innerHTML = `Server: ${sources[index].name} <svg class="w-4 h-4 ml-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+            
+            closeModal();
+        };
+
+        window.updateFilter = (type, key, value) => { state.filters[type][key] = value; state.filters[type].page = 1; setView(state.view); };
+        window.resetFilters = (type) => { state.filters[type] = { page: 1, sort_by: 'popularity.desc', year: '', genre: '', rating: '' }; setView(state.view); };
+
+        function getMediaCard(m, type, delayIndex = 0, deleteActionStr = null, extraClasses = '') {
+            const title = esc(m.title || m.name);
+            const imgPath = m.poster_path ? IMG_W500 + m.poster_path : '';
+            const action = type === 'player' 
+                ? (m.season !== undefined ? `setView('player', ${m.id}, 'tv', ${m.season}, ${m.episode})` : `setView('player', ${m.id}, 'movie')`)
+                : `setView('details', ${m.id}, '${type}')`;
+
+            const delBtn = deleteActionStr 
+                ? `<button onclick="${deleteActionStr}" class="absolute top-3 right-3 z-30 bg-black/60 backdrop-blur-sm border border-white/20 text-white rounded-full min-h-[48px] min-w-[48px] flex items-center justify-center text-xl transition-all active:scale-90 active:bg-red-600 outline-none" title="Remove">&times;</button>` 
+                : '';
+
+            return `
+                <div style="animation-delay: ${delayIndex * 30}ms" class="anim-item media-card cursor-pointer focus-within-ring-accent ${extraClasses}" tabindex="0">
+                    <div onclick="${action}" class="absolute inset-0 z-10 w-full h-full"></div>
+                    ${delBtn}
+                    ${imgPath 
+                        ? `<img src="${imgPath}" loading="lazy" decoding="async" alt="${title}" class="w-full h-full object-cover">`
+                        : `<div class="w-full h-full bg-[#111] flex items-center justify-center p-4 text-center"><span class="font-display text-sm text-gray-500">${title}</span></div>`
+                    }
+                    <div class="card-overlay absolute inset-0 z-0 pointer-events-none flex flex-col justify-end p-4 lg:p-5 opacity-100 bg-gradient-to-t from-black via-black/80 to-transparent">
+                        <div class="title-logo-target w-full" data-id="${m.id}" data-type="${type}" style="opacity: 1;">
+                            <p class="font-display font-bold text-white text-sm md:text-base leading-tight drop-shadow-lg">${title}</p>
+                        </div>
+                        <p class="font-mono-tech text-[10px] text-accent uppercase tracking-widest mt-2">${type === 'player' ? 'Resume' : 'View Details'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createRowHTML(title, items, type, isFirst) {
+            if(!items || !items.length) return '';
+            const rowCardClasses = "w-36 md:w-48 lg:w-56 flex-shrink-0 snap-start";
+            const extraClasses = `${rowCardClasses} ${isFirst ? 'shadow-2xl' : ''}`;
+            const mapping = items.map((m, i) => {
+                let actionStr = type === 'player' ? `removeFromContinueWatching(${m.id}, event)` : null;
+                return getMediaCard(m, type, i, actionStr, extraClasses);
+            }).join('');
+            
+            return `
+                <section class="w-full ${isFirst ? 'relative z-30 mb-10 md:mb-12' : 'mb-10 md:mb-12'} fade-in">
+                    <h3 class="font-mono-tech text-xs tracking-[0.2em] text-gray-400 mb-4 md:mb-6 uppercase border-l-2 ${isFirst ? 'border-accent text-accent' : 'border-white/20'} pl-4 ml-6 md:ml-12 drop-shadow-lg">${title}</h3>
+                    <div class="flex overflow-x-auto gap-4 md:gap-6 hide-scroll pb-8 pt-2 px-6 md:px-12 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-12">
+                        ${mapping}
+                        <div class="w-2 md:w-6 flex-shrink-0"></div>
+                    </div>
+                </section>
+            `;
+        }
+        
+        function getSideListCard(m, type) {
+            const title = esc(m.title || m.name);
+            return `
+                <div class="flex gap-4 items-center cursor-pointer hover:bg-white/5 p-3 rounded-xl transition-colors relative z-10 border border-transparent hover:border-white/10 active:scale-95" onclick="setView('details', ${m.id}, '${type}')">
+                    <img src="${m.poster_path ? IMG_W185 + m.poster_path : ''}" class="w-16 h-24 object-cover rounded-md shadow-md bg-[#111]" loading="lazy">
+                    <div class="flex-1 min-w-0">
+                        <div class="title-logo-target" data-id="${m.id}" data-type="${type}" data-list="true" style="opacity: 1;">
+                            <p class="font-display text-base font-bold text-white truncate">${title}</p>
+                        </div>
+                        <p class="font-mono-tech text-[10px] text-gray-500 mt-2 uppercase tracking-widest">${m.release_date?.slice(0,4) || m.first_air_date?.slice(0,4) || 'TBA'} // ★ ${m.vote_average ? m.vote_average.toFixed(1) : 'N/A'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function setView(view, id = null, type = 'movie', extra1 = null, extra2 = null, extra3 = null) {
+            if (!['player', 'details', 'createProfile', 'profiles'].includes(view)) state.lastMainView = view;
+            if (['details', 'player'].includes(view)) { state.currentMediaId = id; state.currentMediaType = type; }
+
+            state.view = view;
+            const app = document.getElementById('app');
+            
+            const globalBg = document.getElementById('global-bg');
+            if (view !== 'details') { globalBg.classList.replace('opacity-40', 'opacity-0'); }
+
+            const profileOrbNav = state.currentUser ? `
+                <div class="w-8 h-8 rounded-full flex items-center justify-center font-display text-xs font-bold text-white shadow-lg border border-white/20" 
+                     style="background: linear-gradient(135deg, ${state.currentUser.color}, transparent); box-shadow: 0 0 10px ${state.currentUser.color}60;">
+                    ${getInitial(state.currentUser.name)}
+                </div>` : '';
+
+            const nav =['profiles', 'createProfile'].includes(view) ? '' : `
+                <nav class="fixed z-[100] glass-panel bottom-0 left-0 w-full h-[calc(4.5rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] flex justify-around items-center px-2 md:px-4 rounded-t-3xl border-x-0 border-b-0 md:bottom-auto md:top-0 md:left-0 md:w-[6.5rem] md:h-full md:flex-col md:justify-center md:pb-0 md:pt-[env(safe-area-inset-top)] md:rounded-r-3xl md:border-y-0">
+                    <button onclick="setView('home')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${view === 'home' ? 'nav-active text-accent' : ''}" title="Home"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg></button>
+                    <button onclick="setView('movies')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${view === 'movies' ? 'nav-active text-accent' : ''}" title="Movies"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg></button>
+                    <button onclick="setView('shows')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${view === 'shows' ? 'nav-active text-accent' : ''}" title="TV Shows"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></button>
+                    <button onclick="setView('collections')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${['collections', 'franchise'].includes(view) ? 'nav-active text-accent' : ''}" title="Collections"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></button>
+                    <button onclick="setView('search')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${view === 'search' ? 'nav-active text-accent' : ''}" title="Search"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+                    <button onclick="setView('watchlist')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${view === 'watchlist' ? 'nav-active text-accent' : ''}" title="Watchlist"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg></button>
+                    <div class="w-px h-6 bg-white/20 mx-2 md:w-6 md:h-px md:my-4"></div>
+                    <button class="flex items-center justify-center min-h-[48px] min-w-[48px] p-2 outline-none group active:scale-90" onclick="setView('profiles')">
+                        ${profileOrbNav}
+                    </button>
+                </nav>`;
+
+            const layoutClass =['profiles', 'createProfile'].includes(view) 
+                ? 'w-full min-h-screen flex items-center justify-center relative' 
+                : (view === 'home' 
+                    ? 'w-full pl-0 md:pl-[6.5rem] pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0 relative pt-[max(1.5rem,env(safe-area-inset-top))]' 
+                    : 'max-w-[1600px] mx-auto px-6 md:px-12 pl-6 md:pl-[calc(6.5rem+3rem)] pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-24 pt-[max(1.5rem,env(safe-area-inset-top))] relative main-container');
+            
+            app.className = `${layoutClass} z-10`;
+
+            if (view === 'profiles') {
+                document.documentElement.style.setProperty('--accent', '#E2D4E0'); 
+                document.documentElement.style.setProperty('--accent-rgb', '226, 212, 224'); 
+                
+                app.innerHTML = `
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none z-0"></div>
+                    <div class="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center pt-[max(2rem,env(safe-area-inset-top))]">
+                        <h1 class="font-display text-4xl md:text-5xl font-bold tracking-tight mb-4 text-white drop-shadow-2xl text-center anim-item">Who's Watching?</h1>
+                        <p class="font-mono-tech text-xs uppercase tracking-[0.3em] text-gray-500 mb-20 text-center anim-item" style="animation-delay: 100ms">Choose a profile to continue</p>
+                        
+                        <div class="flex flex-wrap justify-center gap-10 md:gap-16 mb-24">
+                            ${state.profiles.map((p, i) => `
+                                <div style="animation-delay: ${i*100 + 200}ms" class="anim-item text-center group relative">
+                                    <button onclick="selectProfile('${esc(p.name)}')" class="block outline-none cursor-pointer focus-within-ring-accent rounded-full relative z-10 active:scale-95 transition-transform">
+                                        <div class="w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center font-display text-5xl md:text-6xl text-white font-bold border border-white/10" 
+                                             style="background: linear-gradient(135deg, ${p.color}90, transparent); box-shadow: 0 15px 40px -10px ${p.color}80, inset 0 0 20px rgba(0,0,0,0.5);">
+                                            ${getInitial(p.name)}
+                                        </div>
+                                        <p class="mt-8 font-mono-tech text-sm tracking-widest uppercase text-gray-400"
+                                           style="text-shadow: 0 0 10px ${p.color}00;">${esc(p.name)}</p>
+                                    </button>
+                                    <button onclick="deleteProfile('${esc(p.name)}', event)" class="absolute -top-2 -right-2 z-30 bg-black/80 backdrop-blur-sm border border-red-500/50 text-red-400 hover:text-white rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center text-xl active:scale-90 shadow-xl outline-none">&times;</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button onclick="setView('createProfile')" class="anim-item btn-glass px-10 rounded-full font-mono-tech text-xs tracking-widest uppercase text-gray-400 flex items-center justify-center gap-3" style="animation-delay: ${state.profiles.length * 100 + 300}ms">
+                            <span class="text-lg leading-none">+</span> Add Profile
+                        </button>
+                    </div>`;
+            } 
+            else if (view === 'createProfile') {
+                document.documentElement.style.setProperty('--accent', '#E2D4E0');
+                tempState.selectedColor = ACCENT_COLORS[0].hex;
+
+                app.innerHTML = `
+                    <div class="w-full max-w-2xl px-6 relative z-10 mx-auto anim-item pt-[max(2rem,env(safe-area-inset-top))]">
+                         <div class="glass-panel p-10 md:p-16 rounded-[2rem] text-center relative overflow-hidden">
+                             <div class="absolute -top-40 -right-40 w-96 h-96 bg-white/5 rounded-full blur-[100px] pointer-events-none"></div>
+                             
+                             <h1 class="font-display text-4xl md:text-5xl font-bold tracking-tight text-white mb-3">Create Profile</h1>
+                             <p class="font-mono-tech text-xs tracking-[0.2em] text-gray-500 uppercase mb-16">Enter a profile name and pick a color</p>
+                             
+                             <div class="space-y-16">
+                                 <div class="relative group">
+                                    <input id="profile-name-input" type="text" placeholder="Name..." class="w-full bg-transparent border-b border-white/20 pb-4 font-display text-3xl md:text-4xl text-center outline-none text-white placeholder-gray-800 transition-colors tracking-tight min-h-[48px]">
+                                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-accent transform scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 origin-center"></div>
+                                 </div>
+
+                                 <div>
+                                    <div class="flex justify-center gap-4 md:gap-6 flex-wrap">
+                                        ${ACCENT_COLORS.map(c => `
+                                            <button onclick="window.selectColor(this, '${c.hex}')" data-color="${c.hex}" class="color-btn min-w-[48px] min-h-[48px] rounded-full outline-none active:scale-90 transition-all duration-300 border-2 border-transparent relative" style="background-color: ${c.hex};" title="${c.name}"></button>
+                                        `).join('')}
+                                    </div>
+                                 </div>
+                             </div>
+
+                             <div class="flex gap-4 mt-20 relative z-10">
+                                <button onclick="setView('profiles')" class="btn-glass flex-1 rounded-2xl font-display text-sm tracking-widest uppercase outline-none text-gray-400">Cancel</button>
+                                <button id="save-profile-btn" class="btn-glow flex-1 rounded-2xl font-display font-bold text-sm tracking-widest uppercase outline-none">Save</button>
+                             </div>
+                         </div>
+                    </div>`;
+
+                window.selectColor = (el, hex) => {
+                    tempState.selectedColor = hex;
+                    document.documentElement.style.setProperty('--accent', hex);
+                    document.documentElement.style.setProperty('--accent-rgb', hexToRgb(hex));
+                    document.querySelectorAll('.color-btn').forEach(btn => {
+                        btn.style.boxShadow = 'none'; btn.style.borderColor = 'transparent'; btn.style.transform = 'scale(1)';
+                    });
+                    el.style.boxShadow = `0 0 30px ${hex}80, inset 0 0 10px rgba(0,0,0,0.2)`; 
+                    el.style.borderColor = 'white';
+                    el.style.transform = 'scale(1.15)';
+                };
+                setTimeout(() => document.querySelector(`.color-btn[data-color="${ACCENT_COLORS[0].hex}"]`)?.click(), 50);
+
+                document.getElementById('save-profile-btn').onclick = () => {
+                    const name = document.getElementById('profile-name-input').value.trim();
+                    if (!name) return alert('Profile name is required.');
+                    if (state.profiles.some(p => p.name.toLowerCase() === name.toLowerCase())) return alert('A profile with this name already exists.');
+                    
+                    state.profiles.push({ name, color: tempState.selectedColor });
+                    saveProfiles();
+                    setView('profiles');
+                };
+            }
+            else if (view === 'collections') {
+                app.innerHTML = nav + `
+                    <div id="content" class="w-full">
+                        <div class="flex items-end justify-between mb-12 border-b border-white/10 pb-6 anim-item">
+                            <div>
+                                <h2 class="font-display text-4xl text-white font-bold tracking-tight">Collections</h2>
+                                <p class="font-mono-tech text-xs tracking-[0.2em] text-accent uppercase mt-2">Curated Movie Franchises</p>
+                            </div>
+                        </div>
+                        <div id="franchise-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">${folderSkeleton(6)}</div>
+                    </div>
+                `;
+                
+                fetchFranchises().then(fData => {
+                    if(!fData) return;
+                    const grid = document.getElementById('franchise-grid');
+                    grid.innerHTML = fData.map((f, i) => `
+                        <div style="animation-delay: ${i*50}ms" class="anim-item media-card aspect-video group" onclick="setView('franchise', ${f.index}, '${esc(f.name)}')">
+                            ${f.backdrop ? `<img src="${IMG_W500}${f.backdrop}" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-60">` : ''}
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none"></div>
+                            <div class="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none rounded-xl"></div>
+                            <div class="absolute bottom-0 left-0 p-8 w-full z-10">
+                                <h3 class="font-display text-2xl text-white font-bold drop-shadow-lg">${esc(f.name)}</h3>
+                                <p class="font-mono-tech text-[10px] text-gray-400 uppercase tracking-widest mt-2 flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span> View Collection
+                                </p>
+                            </div>
+                        </div>
+                    `).join('');
+                });
+            }
+            else if (view === 'franchise') {
+                const franchise = FRANCHISES[id];
+                app.innerHTML = nav + `
+                    <div id="content" class="w-full">
+                        <div class="mb-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-6 anim-item border-b border-white/10 pb-6">
+                            <div>
+                                <h2 class="font-display text-4xl text-white font-bold tracking-tight drop-shadow-md">${esc(type)}</h2>
+                                <p class="font-mono-tech text-xs tracking-[0.2em] text-accent uppercase mt-2">Collection Items</p>
+                            </div>
+                            <button onclick="setView('collections')" class="btn-glass px-6 rounded-lg font-mono-tech text-[10px] tracking-widest uppercase text-gray-400 flex items-center justify-center">Back to Collections</button>
+                        </div>
+                        <div id="media-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">${skeletonCard(franchise.items.length)}</div>
+                    </div>
+                `;
+
+                Promise.all(franchise.items.map(async item => {
+                    const res = await fetchAPI(`/${item.type}/${item.id}`);
+                    if (res) res.media_type = item.type;
+                    return res;
+                })).then(itemsData => {
+                    const valid = itemsData.filter(Boolean);
+                    const grid = document.getElementById('media-grid');
+                    grid.innerHTML = valid.length ? valid.map((m, i) => getMediaCard(m, m.media_type, i)).join('') : `<div class="col-span-full font-mono-tech text-gray-500 py-20 text-center uppercase tracking-widest text-sm">No items found.</div>`;
+                    setTimeout(() => window.observeLogos(), 100);
+                });
+            }
+            else if (view === 'home') {
+                app.innerHTML = nav + `
+                    <div class="ticker-wrap anim-item absolute top-0 left-0 z-40 w-full shadow-lg">
+                        <div class="ticker-content font-mono-tech text-[10px] text-accent tracking-[0.3em] uppercase opacity-70">
+                            WELCOME TO CORE ARCHIVE • UNLIMITED STREAMING ENTERTAINMENT • NEW MOVIES AND SHOWS ADDED DAILY • CHOOSE FROM MULTIPLE HIGH-SPEED SERVERS • ENJOY YOUR EXPERIENCE...
+                        </div>
+                    </div>
+                    <div id="home-content" class="w-full">
+                        <div id="slot-hero">${heroSkeletonHTML()}</div>
+                        <div class="w-full relative z-20 pb-20 -mt-20 md:-mt-24 space-y-2">
+                            <div id="slot-cw"></div>
+                            <div id="slot-trm">${rowSkeleton('Trending Now')}</div>
+                            <div id="slot-vaults">${rowSkeleton('Featured Collections')}</div>
+                            <div id="slot-scifi">${rowSkeleton('Sci-Fi & Fantasy')}</div>
+                            <div id="slot-trt">${rowSkeleton('Trending TV Shows')}</div>
+                            <div id="slot-anim">${rowSkeleton('Animation')}</div>
+                            <div id="slot-topm">${rowSkeleton('Top Rated Movies')}</div>
+                            <div id="slot-topt">${rowSkeleton('Top Rated TV Shows')}</div>
+                            <div id="slot-incoming"></div>
+                        </div>
+                    </div>`;
+                
+                if (state.continueWatching.length > 0) {
+                    document.getElementById('slot-cw').innerHTML = createRowHTML('Continue Watching', state.continueWatching, 'player', true);
+                }
+                const isFirstTRM = state.continueWatching.length === 0;
+
+                fetchAPI('/trending/movie/week').then(async trM => {
+                    if (!trM) return;
+                    const h = trM.results[0]; 
+                    
+                    let heroTitleHtml = `<h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.8)] leading-tight max-w-4xl">${esc(h.title || h.name)}</h1>`;
+                    try {
+                        const lData = await fetchAPI(`/${h.media_type || 'movie'}/${h.id}/images`, '&include_image_language=en,null');
+                        const logo = lData?.logos?.find(l => l.iso_639_1 === 'en') || lData?.logos?.[0];
+                        if(logo?.file_path) {
+                            heroTitleHtml = `<img src="${IMG_W500}${logo.file_path}" class="max-w-full md:max-w-[80%] lg:max-w-[70%] max-h-[140px] md:max-h-[200px] object-contain object-left drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]" alt="${esc(h.title || h.name)}">`;
+                        }
+                    } catch(e) {}
+
+                    document.getElementById('slot-hero').innerHTML = `
+                        <header class="relative w-full h-[75vh] md:h-[85vh] flex flex-col justify-end isolate bg-black fade-in pt-[max(1.5rem,env(safe-area-inset-top))]">
+                            <div id="hero-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out z-[-2] opacity-0 transform translate-z-0"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-base)] via-[var(--bg-base)]/50 to-transparent z-[-1] pointer-events-none"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-[var(--bg-base)] via-[var(--bg-base)]/60 to-transparent z-[-1] w-full md:w-[75%] pointer-events-none"></div>
+                            
+                            <div class="relative z-10 w-full px-6 md:px-12 pb-24 md:pb-32 flex flex-col items-start gap-4">
+                                <span class="inline-block px-4 py-1.5 border border-accent/50 rounded-full font-mono-tech text-[10px] text-accent tracking-[0.2em] uppercase bg-accent/10 backdrop-blur-sm shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]">Featured</span>
+                                
+                                <div class="w-full mb-2 md:mb-4">
+                                    ${heroTitleHtml}
+                                </div>
+                                <p class="font-sans text-sm md:text-lg text-gray-300 max-w-2xl line-clamp-3 leading-relaxed drop-shadow-lg font-light mt-2 md:mt-4">${esc(h.overview)}</p>
+                                
+                                <div class="flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8">
+                                    <button onclick="setView('player', ${h.id}, 'movie')" class="btn-glow px-6 md:px-8 rounded-full font-display font-bold text-xs md:text-sm tracking-widest uppercase shadow-[0_0_30px_rgba(var(--accent-rgb),0.4)] flex items-center justify-center gap-2 md:gap-3">
+                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play Now
+                                    </button>
+                                    <button onclick="setView('details', ${h.id}, 'movie')" class="btn-glass px-6 md:px-8 rounded-full font-display font-bold text-xs md:text-sm tracking-widest uppercase flex items-center justify-center gap-2 md:gap-3 text-white">
+                                        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> More Info
+                                    </button>
+                                    <button onclick="addToWatchlist(${h.id}, 'movie')" class="btn-glass rounded-full font-display font-bold text-lg tracking-widest text-white flex items-center justify-center" title="Add to Watchlist">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        </header>
+                    `;
+
+                    if(h.backdrop_path) {
+                        const bgImg = new Image();
+                        bgImg.src = IMG_ORIGINAL + h.backdrop_path;
+                        bgImg.onload = () => {
+                            const hb = document.getElementById('hero-bg');
+                            if(hb) {
+                                hb.style.backgroundImage = `url('${bgImg.src}')`;
+                                hb.classList.replace('opacity-0', 'opacity-80');
+                            }
+                        };
+                    }
+
+                    document.getElementById('slot-trm').innerHTML = createRowHTML('Trending Now', trM.results.slice(1, 15), 'movie', isFirstTRM);
+                    if (window.observeLogos) window.observeLogos();
+                });
+
+                fetchFranchises().then(fData => {
+                    if(!fData) return;
+                    const collectionCards = fData.map((f, i) => `
+                        <div style="animation-delay: ${i*50}ms" class="anim-item w-64 md:w-80 lg:w-96 flex-shrink-0 snap-start media-card aspect-video group" onclick="setView('franchise', ${f.index}, '${esc(f.name)}')">
+                            ${f.backdrop ? `<img src="${IMG_W500}${f.backdrop}" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-60">` : ''}
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none"></div>
+                            <div class="absolute inset-0 ring-1 ring-inset ring-white/10 pointer-events-none rounded-xl"></div>
+                            <div class="absolute bottom-0 left-0 p-6 w-full z-10">
+                                <h3 class="font-display text-xl text-white font-bold drop-shadow-lg">${esc(f.name)}</h3>
+                                <p class="font-mono-tech text-[9px] text-gray-400 uppercase tracking-widest mt-2 flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span> ${f.items.length} Movies
+                                </p>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('slot-vaults').innerHTML = `
+                        <section class="w-full mb-10 md:mb-12 fade-in">
+                            <h3 class="font-mono-tech text-xs tracking-[0.2em] text-accent mb-4 md:mb-6 uppercase border-l-2 border-accent pl-4 ml-6 md:ml-12 drop-shadow-[0_0_10px_var(--accent)]">Featured Collections</h3>
+                            <div class="flex overflow-x-auto gap-4 md:gap-6 hide-scroll pb-8 pt-2 px-6 md:px-12 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-12">
+                                ${collectionCards}
+                                <div class="w-2 md:w-6 flex-shrink-0"></div>
+                            </div>
+                        </section>
+                    `;
+                });
+
+                fetchAPI('/discover/movie', '&with_genres=878,14&sort_by=popularity.desc').then(res => {
+                    if(res) document.getElementById('slot-scifi').innerHTML = createRowHTML('Sci-Fi & Fantasy', res.results.slice(0, 15), 'movie', false);
+                    if (window.observeLogos) window.observeLogos();
+                });
+
+                fetchAPI('/trending/tv/week').then(res => {
+                    if(res) document.getElementById('slot-trt').innerHTML = createRowHTML('Trending TV Shows', res.results.slice(0, 15), 'tv', false);
+                    if (window.observeLogos) window.observeLogos();
+                });
+
+                fetchAPI('/discover/movie', '&with_genres=16&sort_by=popularity.desc').then(res => {
+                    if(res) document.getElementById('slot-anim').innerHTML = createRowHTML('Animation', res.results.slice(0, 15), 'movie', false);
+                    if (window.observeLogos) window.observeLogos();
+                });
+
+                fetchAPI('/movie/top_rated').then(res => {
+                    if(res) document.getElementById('slot-topm').innerHTML = createRowHTML('Top Rated Movies', res.results.slice(0, 15), 'movie', false);
+                    if (window.observeLogos) window.observeLogos();
+                });
+
+                fetchAPI('/tv/top_rated').then(res => {
+                    if(res) document.getElementById('slot-topt').innerHTML = createRowHTML('Top Rated TV Shows', res.results.slice(0, 15), 'tv', false);
+                    if (window.observeLogos) window.observeLogos();
+                });
+
+                fetchAPI('/movie/upcoming').then(res => {
+                    if(!res) return;
+                    document.getElementById('slot-incoming').innerHTML = `
+                        <section class="w-full mb-12 px-6 md:px-12 border-t border-white/10 pt-12 mt-12 fade-in">
+                            <h3 class="font-mono-tech text-xs tracking-[0.2em] text-gray-400 mb-8 uppercase border-l-2 border-white/20 pl-4">Coming Soon</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                ${res.results.slice(0,8).map(m => getSideListCard(m, 'movie')).join('')}
+                            </div>
+                            <button onclick="setView('movies')" class="mt-12 mx-auto btn-glass px-10 rounded-full font-mono-tech text-[10px] tracking-[0.2em] text-gray-400 uppercase flex items-center justify-center w-max shadow-xl">Browse All Movies</button>
+                        </section>
+                    `;
+                    if (window.observeLogos) window.observeLogos();
+                });
+            } 
+            else if (['movies', 'shows'].includes(view)) {
+                const targetType = view === 'movies' ? 'movie' : 'tv';
+                const isAppend = typeof extra1 === 'boolean' ? extra1 : false;
+
+                if (state.genres[targetType].length === 0) {
+                    const gRes = await fetchAPI(`/genre/${targetType}/list`);
+                    if (gRes?.genres) state.genres[targetType] = gRes.genres;
+                }
+
+                if (!isAppend) {
+                    const f = state.filters[targetType];
+                    let yearOpts = `<option value="">ALL YEARS</option>`;
+                    for(let y = new Date().getFullYear(); y >= 1970; y--) yearOpts += `<option value="${y}" ${f.year == y ? 'selected' : ''}>${y}</option>`;
+                    
+                    let genreOpts = `<option value="">ALL GENRES</option>`;
+                    state.genres[targetType].forEach(g => genreOpts += `<option value="${g.id}" ${f.genre == g.id ? 'selected' : ''}>${esc(g.name).toUpperCase()}</option>`);
+
+                    app.innerHTML = nav + `
+                        <div id="content" class="w-full">
+                            <div class="glass-panel p-6 md:p-8 mb-12 rounded-2xl relative z-20 anim-item">
+                                <div class="flex flex-col md:flex-row gap-6 items-center">
+                                    <h3 class="font-mono-tech text-[10px] tracking-[0.2em] text-accent uppercase min-w-max border-r border-white/10 pr-6 hidden md:block">Filters</h3>
+                                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 w-full">
+                                        <select onchange="updateFilter('${targetType}', 'sort_by', this.value)" class="input-glass rounded-lg px-4 font-mono-tech text-[10px] uppercase tracking-widest text-white outline-none w-full">
+                                            <option value="popularity.desc" ${f.sort_by === 'popularity.desc' ? 'selected' : ''}>Most Popular</option>
+                                            <option value="${targetType === 'movie' ? 'primary_release_date.desc' : 'first_air_date.desc'}" ${f.sort_by === (targetType === 'movie' ? 'primary_release_date.desc' : 'first_air_date.desc') ? 'selected' : ''}>Recently Released</option>
+                                            <option value="vote_average.desc" ${f.sort_by === 'vote_average.desc' ? 'selected' : ''}>Top Rated</option>
+                                        </select>
+                                        <select onchange="updateFilter('${targetType}', 'genre', this.value)" class="input-glass rounded-lg px-4 font-mono-tech text-[10px] uppercase tracking-widest text-white outline-none w-full">${genreOpts}</select>
+                                        <select onchange="updateFilter('${targetType}', 'year', this.value)" class="input-glass rounded-lg px-4 font-mono-tech text-[10px] uppercase tracking-widest text-white outline-none w-full">${yearOpts}</select>
+                                        <select onchange="updateFilter('${targetType}', 'rating', this.value)" class="input-glass rounded-lg px-4 font-mono-tech text-[10px] uppercase tracking-widest text-white outline-none w-full">
+                                            <option value="">ANY RATING</option>
+                                            <option value="6" ${f.rating == '6' ? 'selected' : ''}>RATING 6.0+</option>
+                                            <option value="8" ${f.rating == '8' ? 'selected' : ''}>RATING 8.0+</option>
+                                        </select>
+                                        <button onclick="resetFilters('${targetType}')" class="btn-glass rounded-lg px-4 font-mono-tech text-[10px] tracking-widest uppercase text-gray-400 outline-none w-full flex items-center justify-center">Clear Filters</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="media-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 relative z-10">${skeletonCard(18)}</div>
+                            <div class="mt-16 flex justify-center">
+                                <button id="load-more-btn" onclick="state.filters.${targetType}.page++; setView('${view}', null, '${targetType}', true)" class="btn-glass px-12 rounded-full font-mono-tech text-xs tracking-[0.2em] uppercase text-gray-400 outline-none flex items-center justify-center gap-3 hidden">
+                                    Load More <span class="text-accent text-lg leading-none">+</span>
+                                </button>
+                            </div>
+                        </div>`;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                
+                const f = state.filters[targetType];
+                let queryStr = `&sort_by=${f.sort_by}&page=${f.page}&vote_count.gte=150`;
+                if (f.genre) queryStr += `&with_genres=${f.genre}`;
+                if (f.year) queryStr += `&${targetType === 'movie' ? 'primary_release_year' : 'first_air_date_year'}=${f.year}`;
+                if (f.rating) queryStr += `&vote_average.gte=${f.rating}`;
+
+                fetchAPI(`/discover/${targetType}`, queryStr).then(res => {
+                    const grid = document.getElementById('media-grid');
+                    const loadBtn = document.getElementById('load-more-btn');
+                    if (res?.results?.length > 0) {
+                        if (!isAppend) grid.innerHTML = '';
+                        const inject = res.results.map((m, i) => getMediaCard(m, targetType, isAppend ? 0 : i)).join('');
+                        grid.insertAdjacentHTML('beforeend', inject);
+                        if(!isAppend) { grid.classList.remove('fade-in'); void grid.offsetWidth; grid.classList.add('fade-in'); }
+                        if(loadBtn) loadBtn.classList.remove('hidden');
+                        setTimeout(() => window.observeLogos(), 100);
+                    } else if (!isAppend) {
+                        grid.innerHTML = '<div class="col-span-full font-mono-tech text-gray-500 py-24 text-center tracking-widest uppercase">No titles found matching your filters.</div>';
+                        if(loadBtn) loadBtn.style.display = 'none';
+                    }
+                });
+            }
+            else if (view === 'details') {
+                app.innerHTML = nav + `<div class="w-full flex justify-center pt-32 max-w-[1200px] mx-auto">${detailsSkeleton()}</div>`;
+                
+                Promise.all([
+                    fetchAPI(`/${type}/${id}`), 
+                    fetchAPI(`/${type}/${id}/credits`),
+                    fetchAPI(`/${type}/${id}/images`, '&include_image_language=en,null')
+                ]).then(([m, credits, lData]) => {
+                    if (!m) return app.innerHTML = nav + `<div class="text-center p-32 font-mono-tech text-red-500 uppercase tracking-widest">Title not found.</div>`;
+
+                    window.tempSeasons = m.seasons ||[];
+                    const playAction = type === 'movie' ? `setView('player', ${id}, 'movie', null, null, '${m.imdb_id || ''}')` : `showEpisodeModal(${id})`;
+
+                    if(m.backdrop_path) {
+                        const bgSrc = IMG_ORIGINAL + m.backdrop_path;
+                        const img = new Image();
+                        img.src = bgSrc;
+                        img.onload = () => {
+                            globalBg.style.backgroundImage = `url('${bgSrc}')`;
+                            globalBg.classList.replace('opacity-0', 'opacity-40');
+                        };
+                    }
+
+                    let detailsTitleHtml = `<h1 class="font-display text-5xl md:text-7xl font-bold tracking-tighter text-white leading-tight drop-shadow-2xl">${esc(m.title || m.name)}</h1>`;
+                    if (lData?.logos?.length > 0) {
+                        const logo = lData.logos.find(l => l.iso_639_1 === 'en') || lData.logos[0];
+                        if (logo?.file_path) {
+                            detailsTitleHtml = `<img src="${IMG_W500}${logo.file_path}" class="max-w-full md:max-w-[80%] lg:max-w-[70%] max-h-[140px] md:max-h-[200px] object-contain object-left drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]" alt="${esc(m.title || m.name)}">`;
+                        }
+                    }
+                    
+                    const contentHtml = `
+                        <button onclick="setView('${state.lastMainView}')" class="absolute top-[max(1.5rem,env(safe-area-inset-top))] right-[max(1.5rem,env(safe-area-inset-right))] min-w-[48px] min-h-[48px] rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-2xl active:scale-90 z-50 outline-none">&times;</button>
+                        <div class="grid lg:grid-cols-[450px,1fr] gap-12 lg:gap-20 relative z-10 pt-[max(2rem,env(safe-area-inset-top))] items-start">
+                            <div class="sticky top-32 glass-panel p-2 rounded-[2rem] overflow-hidden group border border-white/10">
+                                <img src="${m.poster_path ? IMG_W500 + m.poster_path : ''}" loading="lazy" class="w-full rounded-[1.5rem] shadow-2xl transform translate-z-0">
+                            </div>
+                            
+                            <div class="pt-4">
+                                <div class="w-full mb-6">${detailsTitleHtml}</div>
+                                
+                                ${m.tagline ? `<p class="font-mono-tech text-sm uppercase tracking-[0.2em] text-accent mb-8 border-l-2 border-accent pl-4 py-1">${esc(m.tagline)}</p>` : '<div class="h-8"></div>'}
+                                
+                                <p class="font-sans text-lg md:text-xl text-gray-300 leading-relaxed font-light mb-12 max-w-4xl">${esc(m.overview || 'No overview available.')}</p>
+                                
+                                <div class="flex flex-wrap gap-4 mb-12">
+                                    ${(m.genres ||[]).map(g => `<span class="px-4 py-2 rounded-full bg-white/5 border border-white/10 font-mono-tech text-[10px] tracking-widest uppercase text-gray-300">${g.name}</span>`).join('')}
+                                </div>
+
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 border-y border-white/10 py-8 mb-12">
+                                    <div><div class="font-mono-tech text-[10px] text-gray-500 uppercase tracking-widest mb-2">Status</div><div class="font-display text-lg text-white">${esc(m.status)}</div></div>
+                                    <div><div class="font-mono-tech text-[10px] text-gray-500 uppercase tracking-widest mb-2">Released</div><div class="font-display text-lg text-white">${esc(m.release_date || m.first_air_date || 'N/A')}</div></div>
+                                    <div><div class="font-mono-tech text-[10px] text-gray-500 uppercase tracking-widest mb-2">Rating</div><div class="font-display text-lg text-accent font-bold">${m.vote_average ? m.vote_average.toFixed(1) : '0'} <span class="text-sm font-normal text-gray-500">/ 10</span></div></div>
+                                    <div><div class="font-mono-tech text-[10px] text-gray-500 uppercase tracking-widest mb-2">Duration</div><div class="font-display text-lg text-white">${m.runtime || (m.episode_run_time?.[0]) || '?'} min</div></div>
+                                </div>
+
+                                <div class="flex flex-col sm:flex-row gap-6 mb-12">
+                                    <button onclick="${playAction}" class="btn-glow flex-1 px-8 rounded-2xl font-display font-bold text-sm tracking-widest uppercase shadow-[0_0_30px_rgba(var(--accent-rgb),0.3)] flex items-center justify-center gap-3">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-black animate-pulse"></span> Play Now
+                                    </button>
+                                    <button onclick="addToWatchlist(${id}, '${type}')" class="btn-glass flex-1 px-8 rounded-2xl font-display font-bold text-sm tracking-widest uppercase flex items-center justify-center gap-3 text-white">
+                                        Add to Watchlist
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`;
+
+                    app.innerHTML = nav + `
+                        <div class="fixed inset-0 bg-black/85 backdrop-blur-md z-[-1] pointer-events-none transform translate-z-0"></div>
+                        <div class="fixed inset-0 bg-gradient-to-t from-black via-black/80 to-transparent z-[-1] pointer-events-none"></div>
+                        <div id="details-content" class="w-full">${contentHtml}</div>
+                    `;
+                    const dc = document.getElementById('details-content');
+                    dc.classList.add('fade-in');
+                });
+            }
+            else if (view === 'player') {
+                const season = extra1, episode = extra2, imdbId = extra3;
+                let nextEpBtn = '';
+                
+                app.innerHTML = nav + `
+                    <div class="w-full max-w-[1400px] mx-auto anim-item relative z-10 pt-[max(1.5rem,env(safe-area-inset-top))]">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-6 border-b border-white/10 pb-6">
+                            <div>
+                                <h2 class="font-display text-2xl md:text-4xl font-bold text-white tracking-tight mb-3">Video Player</h2>
+                                <div class="font-mono-tech text-[10px] text-gray-400 uppercase tracking-[0.2em] flex items-center gap-3">
+                                    <span class="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_10px_var(--accent)]"></span> 
+                                    ID: ${id} • TYPE: ${type.toUpperCase()} ${season !== null ? `• S${season} E${episode}` : ''}
+                                </div>
+                            </div>
+                            <div class="w-full md:w-auto" id="player-controls">
+                                <!-- Controls injected -->
+                            </div>
+                        </div>
+                        
+                        <div class="relative w-full aspect-video bg-black rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(var(--accent-rgb),0.15)] border border-white/10 group mb-8 skeleton-container" id="player-container">
+                            ${folderSkeletonInner()}
+                        </div>
+                        <p class="mt-4 font-mono-tech text-[10px] text-center text-gray-500 uppercase tracking-widest opacity-80">If the video fails to load or buffers, select a different server below.</p>
+                    </div>
+                `;
+
+                fetchAPI(`/${type}/${id}`).then(async details => {
+                    if (details) {
+                        addToContinueWatching({ id, type, title: details.title || details.name, poster_path: details.poster_path, season, episode });
+                        if (type === 'tv') { 
+                            const sData = await fetchAPI(`/tv/${id}/season/${season}`);
+                            let nextS = season, nextE = episode + 1;
+                            if (sData && episode >= sData.episodes.length) {
+                                if (details.seasons.find(s => s.season_number === season + 1)) { nextS = season + 1; nextE = 1; }
+                                else nextE = null;
+                            }
+                            if (nextE) nextEpBtn = `<button onclick="setView('player', ${id}, 'tv', ${nextS}, ${nextE})" class="btn-glass px-6 rounded-lg font-mono-tech text-[10px] tracking-widest uppercase text-accent border-accent/50 flex items-center justify-center gap-2 flex-shrink-0">Next Ep &rarr;</button>`;
+                        }
+                    }
+                    
+                    window.currentSources = getSources(id, type, season, episode, imdbId);
+                    window.currentServerIndex = 0;
+                    
+                    document.getElementById('player-controls').innerHTML = `
+                        <div class="flex gap-3 items-center w-full justify-end">
+                            ${nextEpBtn}
+                            <button id="current-server-btn" onclick="showServerModal()" class="min-w-max h-[48px] px-6 rounded-full glass-panel active:scale-95 font-mono-tech text-[10px] tracking-widest uppercase hover:bg-white/10 transition-colors text-white outline-none flex items-center shadow-lg border-white/20">
+                                Server: ${window.currentSources[0].name} <svg class="w-4 h-4 ml-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <button onclick="setView('details', ${id}, '${type}')" class="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-full glass-panel active:scale-95 flex-shrink-0 text-gray-300 outline-none">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    `;
+
+                    document.getElementById('player-container').innerHTML = `<iframe id="video-frame" src="${window.currentSources[0].url}" class="absolute inset-0 w-full h-full z-10 bg-black rounded-3xl transition-opacity duration-1000 transform translate-z-0" frameborder="0" allowfullscreen onload="this.style.opacity='1'" style="opacity:0;"></iframe>`;
+                });
+            }
+            else if (view === 'search') {
+                app.innerHTML = nav + `
+                    <div class="anim-item max-w-5xl mx-auto flex flex-col h-full">
+                        <div class="sticky top-0 z-[60] bg-black/90 backdrop-blur-xl pt-[max(1rem,env(safe-area-inset-top))] pb-4 px-6 md:px-12 border-b border-white/10 w-full">
+                            <div class="relative flex items-center gap-4">
+                                <button onclick="setView(state.lastMainView)" class="min-w-[48px] min-h-[48px] rounded-full glass-panel flex items-center justify-center active:scale-95 text-gray-400 outline-none">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </button>
+                                <input type="text" id="sInput" placeholder="Search movies, shows..." class="w-full bg-transparent text-3xl md:text-4xl font-display font-bold outline-none text-white focus:border-accent min-h-[48px] tracking-tight">
+                            </div>
+                        </div>
+                        <div id="results" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 p-6 overflow-y-auto"></div>
+                    </div>`;
+                
+                const sInput = document.getElementById('sInput');
+                setTimeout(() => sInput.focus(), 100);
+                
+                sInput.addEventListener('input', (e) => {
+                    clearTimeout(tempState.searchTimeout);
+                    const query = e.target.value.trim();
+                    if(query.length < 2) return document.getElementById('results').innerHTML = '';
+                    
+                    tempState.searchTimeout = setTimeout(() => {
+                        fetchAPI(`/search/multi`, `&query=${encodeURIComponent(query)}`).then(res => {
+                            if(res?.results) {
+                                const grid = document.getElementById('results');
+                                grid.innerHTML = res.results
+                                    .filter(m => m.media_type === 'movie' || m.media_type === 'tv')
+                                    .slice(0, 15)
+                                    .map((m, i) => getMediaCard(m, m.media_type, i))
+                                    .join('');
+                                grid.classList.remove('fade-in'); void grid.offsetWidth; grid.classList.add('fade-in');
+                                setTimeout(() => window.observeLogos(), 100);
+                            }
+                        });
+                    }, 400); 
+                });
+            }
+            else if (view === 'watchlist') {
+                app.innerHTML = nav + `
+                    <div id="content" class="w-full">
+                        <div class="flex items-end justify-between mb-12 border-b border-white/10 pb-6 anim-item">
+                            <div>
+                                <h2 class="font-display text-4xl text-white font-bold tracking-tight">My Watchlist</h2>
+                                <p class="font-mono-tech text-xs tracking-[0.2em] text-accent uppercase mt-2">Profile: ${esc(state.currentUser.name)}</p>
+                            </div>
+                        </div>
+                        <div id="w-list" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">${skeletonCard(6)}</div>
+                    </div>
+                `;
+                
+                Promise.all(state.watchlist.map(async item => {
+                    const res = await fetchAPI(`/${item.type}/${item.id}`);
+                    if(res) res.media_type = item.type;
+                    return res;
+                })).then(list => {
+                    const validList = list.filter(Boolean);
+                    const grid = document.getElementById('w-list');
+                    grid.innerHTML = validList.length 
+                        ? validList.map((m, i) => getMediaCard(m, m.media_type, i, `removeFromWatchlist(${m.id}, event)`)).join('') 
+                        : '<div class="col-span-full font-mono-tech text-gray-500 py-24 text-center tracking-widest uppercase">Your watchlist is empty.</div>';
+                    grid.classList.remove('fade-in'); void grid.offsetWidth; grid.classList.add('fade-in');
+                    setTimeout(() => window.observeLogos(), 100);
+                });
+            }
+        }
+        
+        setView('profiles');
+    </script>
+</body>
+</html>
