@@ -1,4 +1,7 @@
+<!-- prettier-ignore -->
 <!DOCTYPE html>
+
+<!-- prettier-ignore -->
 <html lang="en" class="bg-black" style="background-color: #000;">
 <head>
     <meta charset="UTF-8">
@@ -248,7 +251,7 @@
             { name: "Marvel Cinematic Universe", items:[ { id: 1726, type: 'movie' }, { id: 24428, type: 'movie' }, { id: 299534, type: 'movie' }, { id: 84958, type: 'tv' } ] },
             { name: "Star Wars Saga", items:[ { id: 11, type: 'movie' }, { id: 1891, type: 'movie' }, { id: 1892, type: 'movie' }, { id: 82856, type: 'tv' } ] },
             { name: "DC Extended Universe", items:[ { id: 272, type: 'movie' }, { id: 49026, type: 'movie' }, { id: 297762, type: 'movie' }, { id: 110492, type: 'tv' } ] },
-            { name: "Wizarding World", items:[ { id: 671, type: 'movie' }, { id: 672, type: 'movie' }, { id: 12444, type: 'movie' }, { id: 12445, type: 'movie' } ] },
+            { name: "Wizarding World", items:[ { id: 671, type: 'movie' }, { id: 672, type: 'movie' }, { id: 673, type: 'movie' }, { id: 674, type: 'movie' }, { id: 675, type: 'movie' }, { id: 767, type: 'movie' }, { id: 12444, type: 'movie' }, { id: 12445, type: 'movie' } ] },
             { name: "Middle Earth", items:[ { id: 120, type: 'movie' }, { id: 121, type: 'movie' }, { id: 122, type: 'movie' }, { id: 84773, type: 'tv' } ] }
         ];
 
@@ -732,7 +735,7 @@
                         <h1 class="font-display text-4xl md:text-5xl font-bold tracking-tight mb-4 text-white drop-shadow-2xl text-center anim-item">Who's Watching?</h1>
                         <p class="font-mono-tech text-xs uppercase tracking-[0.3em] text-gray-500 mb-20 text-center anim-item" style="animation-delay: 100ms">Choose a profile to continue</p>
                         
-                        <div class="flex flex-wrap justify-center gap-10 md:gap-16 mb-24">
+                        <div class="flex flex-wrap justify-center gap-10 md:gap-16 mb-20">
                             ${state.profiles.map((p, i) => `
                                 <div style="animation-delay: ${i*100 + 200}ms" class="anim-item text-center group relative">
                                     <button onclick="selectProfile('${esc(p.name)}')" class="block outline-none cursor-pointer rounded-full relative z-10 active:scale-95 transition-transform">
@@ -841,12 +844,14 @@
                 });
             }
             else if (view === 'franchise') {
-                const franchise = FRANCHISES[id];
+                if (id !== null) {state.lastFranchiseId = id; state.lastFranchiseType = type;}
+
+                const franchise = FRANCHISES[id == null ? state.lastFranchiseId : id];
                 app.innerHTML = nav + `
                     <div id="content" class="w-full">
                         <div class="mb-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-6 anim-item border-b border-white/10 pb-6">
                             <div>
-                                <h2 class="font-display text-4xl text-white font-bold tracking-tight drop-shadow-md">${esc(type)}</h2>
+                                <h2 class="font-display text-4xl text-white font-bold tracking-tight drop-shadow-md">${esc(type==='movie' ? (state.lastFranchiseType||"movie") : type)}</h2>
                                 <p class="font-mono-tech text-xs tracking-[0.2em] text-accent uppercase mt-2">Collection Items</p>
                             </div>
                             <button onclick="setView('collections')" class="btn-glass px-6 rounded-lg font-mono-tech text-[10px] tracking-widest uppercase text-gray-400 flex items-center justify-center">Back to Collections</button>
