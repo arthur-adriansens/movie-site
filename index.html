@@ -233,7 +233,9 @@
     <div id="modal-root"></div>
 
     <script>
-        const API_KEY = '64c0ee366784fff0886ad95418f4a19c';
+        // Use user-provided API key stored in localStorage
+        let API_KEY = localStorage.getItem('tmdb_api_key') || '';
+        
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_ORIGINAL = 'https://image.tmdb.org/t/p/original';
         const IMG_W500 = 'https://image.tmdb.org/t/p/w500';
@@ -688,7 +690,7 @@
         }
 
         async function setView(view, id = null, type = 'movie', extra1 = null, extra2 = null, extra3 = null) {
-            if (!['player', 'details', 'createProfile', 'profiles'].includes(view)) state.lastMainView = view;
+            if (!['setup', 'player', 'details', 'createProfile', 'profiles'].includes(view)) state.lastMainView = view;
             if (['details', 'player'].includes(view)) { state.currentMediaId = id; state.currentMediaType = type; }
 
             state.view = view;
@@ -703,7 +705,7 @@
                     ${getInitial(state.currentUser.name)}
                 </div>` : '';
 
-            const nav =['profiles', 'createProfile'].includes(view) ? '' : `
+            const nav =['setup', 'profiles', 'createProfile'].includes(view) ? '' : `
                 <nav role="navigation" class="fixed z-[100] glass-panel bottom-0 left-0 w-full h-[calc(4.5rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] flex justify-around items-center px-2 md:px-4 rounded-t-3xl border-x-0 border-b-0 md:bottom-auto md:top-0 md:left-0 md:w-[6.5rem] md:h-full md:flex-col md:justify-center md:pb-0 md:pt-[env(safe-area-inset-top)] md:rounded-r-3xl md:border-y-0">
                     <button onclick="setView('home')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${view === 'home' ? 'nav-active text-accent' : ''}" title="Home"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg></button>
                     <button onclick="setView('movies')" class="nav-link min-h-[48px] min-w-[48px] p-2 rounded-xl active:bg-white/10 ${view === 'movies' ? 'nav-active text-accent' : ''}" title="Movies"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg></button>
@@ -717,7 +719,7 @@
                     </button>
                 </nav>`;
 
-            const layoutClass =['profiles', 'createProfile'].includes(view) 
+            const layoutClass =['setup', 'profiles', 'createProfile'].includes(view) 
                 ? 'w-full min-h-screen flex items-center justify-center relative'
                 : (view === 'home'
                     ? 'w-full pl-0 md:pl-[6.5rem] pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0 relative pt-[max(1.5rem,env(safe-area-inset-top))]'
@@ -725,7 +727,29 @@
 
             app.className = `${layoutClass} z-10`;
 
-            if (view === 'profiles') {
+            if (view === 'setup') {
+                document.documentElement.style.setProperty('--accent', '#E2D4E0');
+                
+                app.innerHTML = `
+                    <div class="w-full min-h-screen flex flex-col items-center justify-center px-6 relative z-10 anim-item">
+                        <div class="glass-panel p-10 md:p-16 rounded-[2rem] text-center max-w-lg w-full">
+                            <h1 class="font-display text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">Initial Setup</h1>
+                            <p class="font-mono-tech text-xs tracking-[0.1em] text-gray-400 mb-8 leading-relaxed">Please enter your TMDb API Key (v3 Auth) to continue. You can get one for free at themoviedb.org.</p>
+                            <input id="api-key-input" type="text" placeholder="Enter TMDb API Key" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 font-mono-tech text-sm text-center outline-none text-white focus:border-accent transition-colors mb-6 min-h-[48px]">
+                            <button id="save-api-key" class="btn-glow w-full rounded-xl font-display font-bold text-sm tracking-widest uppercase py-3 outline-none">Save & Continue</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('save-api-key').onclick = () => {
+                    const key = document.getElementById('api-key-input').value.trim();
+                    if (!key) return alert('API Key is required to use this application.');
+                    localStorage.setItem('tmdb_api_key', key);
+                    API_KEY = key;
+                    setView('profiles');
+                };
+            }
+            else if (view === 'profiles') {
                 document.documentElement.style.setProperty('--accent', '#E2D4E0');
                 document.documentElement.style.setProperty('--accent-rgb', '226, 212, 224');
 
@@ -752,6 +776,10 @@
                         </div>
                         <button onclick="setView('createProfile')" class="anim-item btn-glass px-10 rounded-full font-mono-tech text-xs tracking-widest uppercase text-gray-400 flex items-center justify-center gap-3" style="animation-delay: ${state.profiles.length * 100 + 300}ms">
                             <span class="text-lg leading-none">+</span> Add Profile
+                        </button>
+
+                        <button onclick="localStorage.removeItem('tmdb_api_key'); location.reload();" class="mt-20 font-mono-tech text-[10px] tracking-[0.2em] uppercase text-gray-600 hover:text-red-400 transition-colors bg-transparent border-none cursor-pointer p-2">
+                            Reset API Key
                         </button>
                     </div>`;
             }
@@ -1292,7 +1320,12 @@
             }
         }
 
-        setView('profiles');
+        // Initialization Logic
+        if (API_KEY) {
+            setView('profiles');
+        } else {
+            setView('setup');
+        }
     </script>
 </body>
 </html>
