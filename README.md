@@ -15,20 +15,14 @@ Features:
 - Adaptive dark glassmorphism UI
 - Embedded external stream source links
 
-## ▶️ Run locally
 
-1. Open `index.html` in a browser (or run a local server):
-   - `python3 -m http.server 8000` and open `http://localhost:8000`
-2. Interact with the app; it gets data from TMDb API.
+## 🚀 Planned Features
 
-## 🛠️ Notes
-
-- Current API key is in the file (`API_KEY` variable). For production, replace with your own key or move to a backend proxy.
-- If you want to keep just one file, remove `online_viewer_net.html` and keep `index.html`.
-
-## 💡 To focus repo on this app
-
-- Keep README focused on `index.html` usage.
-- Optional: delete unrelated files (none currently).
-- Optional: add `LICENSE`, `CONTRIBUTING.md`, and GitHub Pages settings.
-
+- [ ] **Watch Trailers:** Add a button to view YouTube trailers on the movie/show details page.
+- [ ] **Cast & Crew:** Add a section showing the main actors and their photos.
+- [ ] **Similar / Recommended:** Show a list of related movies or shows at the bottom of the details page.
+- [ ] **Episode Progress Tracking:** Remember exactly what timestamp a user left off on in a video.
+- [ ] **Installable App (PWA):** Let users install the app directly to their phone or desktop home screen.
+- [ ] **Cloud Sync:** Allow users to save their profiles, watchlists, and history to the cloud so it syncs across devices.
+- [ ] **Custom Video Player:** Replace the default web player with a custom UI (custom play/pause, subtitles, and volume controls).
+- [ ] **Chromecast / AirPlay:** Add the ability to cast movies directly to a smart TV.
