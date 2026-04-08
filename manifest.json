@@ -2,8 +2,8 @@
     "name": "CORE // ARCHIVE",
     "short_name": "CORE",
     "description": "A polished, single-page TMDb-powered movie and TV browser app with unlimited streaming entertainment.",
-    "start_url": "/",
-    "scope": "/",
+    "start_url": "/movie-site/",
+    "scope": "/movie-site/",
     "display": "standalone",
     "orientation": "portrait-primary",
     "background_color": "#030303",
@@ -14,13 +14,13 @@
     ],
     "icons": [
         {
-            "src": "/icon.svg",
+            "src": "/movie-site/icon.svg",
             "sizes": "192x192",
             "type": "image/svg+xml",
             "purpose": "any"
         },
         {
-            "src": "/icon.svg",
+            "src": "/movie-site/icon.svg",
             "sizes": "192x192",
             "type": "image/svg+xml",
             "purpose": "maskable"
