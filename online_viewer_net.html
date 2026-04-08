@@ -226,6 +226,15 @@
 
         option { background-color: var(--bg-base); }
     </style>
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#030303">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CORE // ARCHIVE">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <link rel="icon" type="image/svg+xml" href="./icon.svg">
 </head>
 <body class="text-slate-200">
 
@@ -635,7 +644,7 @@
                 : `setView('details', ${m.id}, '${type}')`;
             
             const delBtn = deleteActionStr
-                ? `<button onclick="${deleteActionStr}" class="absolute top-3 right-3 z-30 bg-black/60 backdrop-blur-sm border border-white/20 text-white rounded-full min-h-[48px] min-w-[48px] flex items-center justify-center text-xl transition-all active:scale-90 active:bg-red-600 outline-none" title="Remove">&times;</button>`
+                ? `<button onclick="${deleteActionStr}" class="btn-glass absolute top-3 right-3 z-30 bg-black/60 backdrop-blur-sm border border-white/20 text-white rounded-full min-h-[48px] min-w-[48px] flex items-center justify-center text-xl transition-all active:scale-90 active:bg-red-600 outline-none" title="Remove">&times;</button>`
                 : '';
 
             return `
@@ -1375,6 +1384,29 @@
             setView('profiles');
         } else {
             setView('setup');
+        }
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered:', registration);
+                        
+                        // Check for updates periodically
+                        setInterval(() => {
+                            registration.update();
+                        }, 60000); // Check every minute
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+
+            // Handle service worker updates
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log('Service Worker controller changed');
+            });
         }
     </script>
 </body>

@@ -23,7 +23,7 @@ Features:
 - [ ] **Cast & Crew:** Add a section showing the main actors and their photos.
 - [ ] **Similar / Recommended:** Show a list of related movies or shows at the bottom of the details page.
 - [ ] **Episode Progress Tracking:** Remember exactly what timestamp a user left off on in a video.
-- [ ] **Installable App (PWA):** Let users install the app directly to their phone or desktop home screen.
+- [x] **Installable App (PWA):** Let users install the app directly to their phone or desktop home screen.
 - [ ] **Cloud Sync:** Allow users to save their profiles, watchlists, and history to the cloud so it syncs across devices.
 - [ ] **Custom Video Player:** Replace the default web player with a custom UI (custom play/pause, subtitles, and volume controls).
 - [ ] **Chromecast / AirPlay:** Add the ability to cast movies directly to a smart TV.
