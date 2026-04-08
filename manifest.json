@@ -7,20 +7,20 @@
     "display": "standalone",
     "orientation": "portrait-primary",
     "background_color": "#030303",
-    "theme_color": "#E2D4E0",
+    "theme_color": "#030303",
     "categories": [
         "entertainment",
         "movies"
     ],
     "icons": [
         {
-            "src": "icon.svg",
+            "src": "/icon.svg",
             "sizes": "192x192",
             "type": "image/svg+xml",
             "purpose": "any"
         },
         {
-            "src": "icon.svg",
+            "src": "/icon.svg",
             "sizes": "192x192",
             "type": "image/svg+xml",
             "purpose": "maskable"
