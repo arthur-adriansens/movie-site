@@ -1,0 +1,70 @@
+{
+    "name": "CORE // ARCHIVE",
+    "short_name": "CORE",
+    "description": "A polished, single-page TMDb-powered movie and TV browser app with unlimited streaming entertainment.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#030303",
+    "theme_color": "#E2D4E0",
+    "categories": [
+        "entertainment",
+        "movies"
+    ],
+    "icons": [
+        {
+            "src": "icon.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "icon.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Movies",
+            "short_name": "Movies",
+            "description": "Browse and search movies",
+            "url": "/?view=movies",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%23E2D4E0' width='96' height='96' rx='20'/><text x='48' y='48' font-size='56' fill='%23030303' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-weight='bold'>🎬</text></svg>",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "TV Shows",
+            "short_name": "Shows",
+            "description": "Browse and search TV shows",
+            "url": "/?view=shows",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%23E2D4E0' width='96' height='96' rx='20'/><text x='48' y='48' font-size='56' fill='%23030303' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif' font-weight='bold'>📺</text></svg>",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "Watchlist",
+            "short_name": "Watchlist",
+            "description": "View your watchlist",
+            "url": "/?view=watchlist",
+            "icons": [
+                {
+                    "src": "icon.svg",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        }
+    ]
+}
